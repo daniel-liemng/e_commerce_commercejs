@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 // import Navbar from "./components/Navbar/Navbar";
 // import Products from "./components/Products/Products";
 
-import { Navbar, Products, Cart } from "./components";
+import { Navbar, Products, Cart, Checkout } from "./components";
 import { commerce } from "./lib/commerce";
 
 const App = () => {
@@ -30,11 +30,9 @@ const App = () => {
   };
 
   const handleUpdateCartQty = async (productId, quantity) => {
-    const response = await commerce.cart.update(productId, { quantity });
+    const { cart } = await commerce.cart.update(productId, { quantity });
 
-    console.log("updATE", response);
-
-    setCart(response.cart);
+    setCart(cart);
   };
 
   const handleRemoveFromCart = async (productId) => {
@@ -71,6 +69,9 @@ const App = () => {
             handleRemoveFromCart={handleRemoveFromCart}
             handleEmptyCart={handleEmptyCart}
           />
+        </Route>
+        <Route exact path='/checkout'>
+          <Checkout cart={cart} />
         </Route>
       </Switch>
     </Router>
